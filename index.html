@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NXTBITE LABS</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0A0A0A;
+    --white: #F5F2ED;
+    --accent: #F5C842;
+    --mid: #141414;
+    --muted: #2A2A2A;
+    --border: #222222;
+    --melted-orange: #F4A435;
+    --melted-cream: #FDF6E8;
+    --melted-dark: #1C0F00;
+    --melted-brown: #2C1810;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    cursor: none;
+    overflow-x: hidden;
+  }
+
+  /* ── CUSTOM CURSOR ── */
+  .cursor {
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, width 0.2s ease, height 0.2s ease;
+  }
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1px solid rgba(245,200,66,0.4);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.15s ease;
+  }
+  body:hover .cursor { opacity: 1; }
+  a:hover ~ .cursor, button:hover ~ .cursor { width: 16px; height: 16px; }
+
+  /* ── GRID OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(245,200,66,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(245,200,66,0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 0 48px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.15em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(245,242,237,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-cta {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--black) !important;
+    background: var(--accent);
+    padding: 8px 18px;
+    text-decoration: none;
+    transition: opacity 0.2s !important;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ── SECTIONS ── */
+  section { position: relative; z-index: 1; }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 48px 80px;
+    padding-top: 64px;
+    overflow: hidden;
+  }
+
+  .hero-bg-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(120px, 20vw, 280px);
+    letter-spacing: 0.05em;
+    color: rgba(245,200,66,0.04);
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+
+  .hero-tag {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.2s forwards;
+  }
+
+  .hero-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 9vw, 130px);
+    letter-spacing: 0.06em;
+    line-height: 0.95;
+    max-width: 900px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.4s forwards;
+  }
+
+  .hero-headline em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    margin-top: 32px;
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    color: rgba(245,242,237,0.55);
+    max-width: 480px;
+    line-height: 1.8;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.6s forwards;
+  }
+
+  .hero-actions {
+    margin-top: 40px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.8s forwards;
+  }
+
+  .btn-primary {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    background: var(--accent);
+    color: var(--black);
+    padding: 14px 28px;
+    text-decoration: none;
+    border: none;
+    cursor: none;
+    transition: opacity 0.2s;
+    font-weight: 600;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+
+  .btn-secondary {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    background: transparent;
+    color: rgba(245,242,237,0.6);
+    padding: 14px 28px;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    cursor: none;
+    transition: all 0.2s;
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero-scroll {
+    position: absolute;
+    right: 48px;
+    bottom: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 1s forwards;
+  }
+  .hero-scroll span {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,242,237,0.3);
+    writing-mode: vertical-rl;
+  }
+  .scroll-line {
+    width: 1px;
+    height: 48px;
+    background: linear-gradient(var(--accent), transparent);
+    animation: scrollPulse 2s ease infinite;
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+  }
+
+  .hero-stats {
+    position: absolute;
+    right: 48px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 1s forwards;
+  }
+
+  .stat {
+    text-align: right;
+  }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,242,237,0.35);
+    margin-top: 4px;
+  }
+
+  /* ── TICKER ── */
+  .ticker {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 0;
+    overflow: hidden;
+    background: var(--mid);
+  }
+
+  .ticker-inner {
+    display: flex;
+    gap: 0;
+    animation: ticker 25s linear infinite;
+    white-space: nowrap;
+  }
+
+  .ticker-item {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,242,237,0.35);
+    padding: 0 40px;
+    flex-shrink: 0;
+  }
+
+  .ticker-item span { color: var(--accent); margin-right: 8px; }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    padding: 120px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-eyebrow::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .about-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(44px, 5vw, 72px);
+    letter-spacing: 0.06em;
+    line-height: 1;
+    margin-bottom: 32px;
+  }
+
+  .about-body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    color: rgba(245,242,237,0.6);
+    line-height: 1.9;
+    margin-bottom: 20px;
+  }
+
+  .about-right {
+    padding-top: 60px;
+  }
+
+  .pillar {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+  .pillar:first-child { border-top: 1px solid var(--border); }
+
+  .pillar-num {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    padding-top: 3px;
+  }
+
+  .pillar-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+
+  .pillar-body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    color: rgba(245,242,237,0.5);
+    line-height: 1.7;
+  }
+
+  /* ── MELTED BRAND ── */
+  #melted {
+    background: var(--melted-cream);
+    color: var(--melted-dark);
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .melted-hero {
+    padding: 100px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    border-bottom: 1px solid rgba(44,24,16,0.1);
+  }
+
+  .melted-parent-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(28,15,0,0.4);
+    margin-bottom: 16px;
+  }
+
+  .melted-wordmark {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 12vw, 160px);
+    letter-spacing: 0.06em;
+    line-height: 0.9;
+    color: var(--melted-dark);
+  }
+  .melted-wordmark span { color: var(--melted-orange); }
+
+  .melted-tagline {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 18px;
+    font-style: italic;
+    color: rgba(28,15,0,0.5);
+    margin-top: 20px;
+    font-weight: 300;
+  }
+
+  .melted-right {}
+
+  .melted-desc {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.9;
+    color: rgba(28,15,0,0.65);
+    margin-bottom: 32px;
+  }
+
+  .melted-facts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 40px;
+  }
+
+  .melted-fact {
+    background: rgba(244,164,53,0.12);
+    padding: 20px;
+  }
+
+  .melted-fact-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 40px;
+    letter-spacing: 0.05em;
+    color: var(--melted-orange);
+    line-height: 1;
+  }
+
+  .melted-fact-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(28,15,0,0.5);
+    margin-top: 4px;
+  }
+
+  /* ── PRODUCT / ECOMMERCE ── */
+  #shop {
+    background: var(--melted-cream);
+    padding: 0 48px 100px;
+    border-top: 1px solid rgba(44,24,16,0.1);
+  }
+
+  .shop-header {
+    padding: 60px 0 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid rgba(44,24,16,0.1);
+    margin-bottom: 48px;
+  }
+
+  .shop-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    letter-spacing: 0.08em;
+    color: var(--melted-dark);
+  }
+
+  .shop-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(28,15,0,0.4);
+  }
+
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .product-card {
+    background: white;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+  }
+  .product-card:hover { transform: translateY(-4px); }
+
+  .product-img {
+    height: 280px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .product-img-classic { background: linear-gradient(135deg, #F4A435, #E8821A); }
+  .product-img-white { background: linear-gradient(135deg, #F5F0E8, #E8DDD0); }
+  .product-img-spicy { background: linear-gradient(135deg, #C0392B, #8B1A10); }
+
+  .product-packet {
+    width: 100px;
+    height: 140px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    position: relative;
+  }
+
+  .packet-classic { background: var(--melted-dark); }
+  .packet-white { background: #2C3E50; }
+  .packet-spicy { background: #0A0A0A; }
+
+  .packet-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 0.1em;
+    color: var(--melted-cream);
+  }
+  .packet-logo span { color: var(--melted-orange); }
+
+  .packet-flavor {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(253,246,232,0.5);
+    margin-top: 6px;
+    text-align: center;
+    padding: 0 8px;
+  }
+
+  .packet-protein {
+    margin-top: 10px;
+    background: var(--melted-orange);
+    color: var(--melted-dark);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 3px 8px;
+  }
+
+  .product-new-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--melted-orange);
+    color: white;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+  }
+
+  .product-info {
+    padding: 24px;
+    border-top: 1px solid rgba(44,24,16,0.08);
+  }
+
+  .product-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 0.08em;
+    color: var(--melted-dark);
+    margin-bottom: 4px;
+  }
+
+  .product-desc {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 12px;
+    color: rgba(28,15,0,0.5);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+
+  .product-meta {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+
+  .product-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid rgba(244,164,53,0.3);
+    color: var(--melted-orange);
+  }
+
+  .product-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .product-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    letter-spacing: 0.05em;
+    color: var(--melted-dark);
+  }
+
+  .product-price span {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: rgba(28,15,0,0.4);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: -4px;
+  }
+
+  .add-to-cart {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--melted-dark);
+    color: var(--melted-cream);
+    border: none;
+    padding: 12px 20px;
+    cursor: none;
+    transition: background 0.2s;
+    font-weight: 500;
+  }
+  .add-to-cart:hover { background: var(--melted-orange); }
+
+  /* ── NOTIFY BANNER ── */
+  .notify-banner {
+    background: var(--melted-dark);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+  }
+
+  .notify-text {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    color: rgba(253,246,232,0.7);
+    line-height: 1.6;
+  }
+
+  .notify-text strong {
+    color: var(--melted-cream);
+    font-weight: 500;
+  }
+
+  .notify-form {
+    display: flex;
+    gap: 0;
+    flex-shrink: 0;
+  }
+
+  .notify-input {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-right: none;
+    color: var(--melted-cream);
+    padding: 12px 20px;
+    width: 240px;
+    outline: none;
+  }
+  .notify-input::placeholder { color: rgba(253,246,232,0.3); }
+
+  .notify-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    background: var(--melted-orange);
+    color: var(--melted-dark);
+    border: none;
+    padding: 12px 20px;
+    cursor: none;
+    font-weight: 600;
+    transition: opacity 0.2s;
+  }
+  .notify-btn:hover { opacity: 0.85; }
+
+  /* ── INVESTOR SECTION ── */
+  #investors {
+    padding: 120px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .investor-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(44px, 5vw, 72px);
+    letter-spacing: 0.06em;
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+
+  .investor-body {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    color: rgba(245,242,237,0.6);
+    line-height: 1.9;
+    margin-bottom: 32px;
+  }
+
+  .investor-right {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .inv-row {
+    background: var(--mid);
+    padding: 24px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .inv-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(245,242,237,0.4);
+  }
+
+  .inv-value {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+  }
+
+  .inv-email {
+    margin-top: 24px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    color: rgba(245,242,237,0.4);
+  }
+
+  .inv-email a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .inv-email a:hover { text-decoration: underline; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 48px;
+    border-top: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.12em;
+  }
+  .footer-logo span { color: var(--accent); }
+
+  .footer-tagline {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 12px;
+    color: rgba(245,242,237,0.35);
+    margin-top: 8px;
+    line-height: 1.7;
+  }
+
+  .footer-col-title {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(245,242,237,0.3);
+    margin-bottom: 16px;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-links a {
+    font-family: 'IBM Plex Sans', sans-serif;
+    font-size: 13px;
+    color: rgba(245,242,237,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--accent); }
+
+  .footer-bottom {
+    padding: 20px 48px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-copy {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: rgba(245,242,237,0.2);
+  }
+
+  .footer-sub-brand {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: rgba(245,242,237,0.2);
+  }
+  .footer-sub-brand span { color: var(--melted-orange); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 0 24px; }
+    .nav-links { gap: 20px; }
+    #hero { padding: 80px 24px 60px; }
+    .hero-stats { display: none; }
+    #about, #investors { grid-template-columns: 1fr; padding: 80px 24px; gap: 48px; }
+    .melted-hero { grid-template-columns: 1fr; padding: 60px 24px; }
+    .product-grid { grid-template-columns: 1fr; }
+    #shop { padding: 0 24px 60px; }
+    .shop-header { padding: 40px 0 32px; }
+    footer { grid-template-columns: 1fr; padding: 40px 24px; }
+    .footer-bottom { padding: 20px 24px; flex-direction: column; gap: 8px; text-align: center; }
+    .notify-banner { flex-direction: column; padding: 32px 24px; }
+    .notify-form { width: 100%; }
+    .notify-input { flex: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">NXTBITE <span>LABS</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#melted">Melted</a></li>
+    <li><a href="#shop">Shop</a></li>
+    <li><a href="#investors">Investors</a></li>
+    <li><a href="#shop" class="nav-cta">Shop Now</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-text">NXTBITE</div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">20G</div>
+      <div class="stat-label">Protein per serving</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">$5.4B</div>
+      <div class="stat-label">Mac & cheese market</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">71%</div>
+      <div class="stat-label">Americans want more protein</div>
+    </div>
+  </div>
+
+  <div class="hero-tag">Food Innovation Studio — Est. 2026</div>
+  <h1 class="hero-headline">
+    Engineering the<br>
+    <em>next</em> generation<br>
+    of comfort food.
+  </h1>
+  <p class="hero-sub">
+    We identify white space in beloved comfort food categories and re-engineer them — more protein, cleaner ingredients, same indulgence. MELTED is our first brand.
+  </p>
+  <div class="hero-actions">
+    <a href="#melted" class="btn-primary">Explore Melted</a>
+    <a href="#about" class="btn-secondary">Our Thesis</a>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item"><span>✦</span> Comfort food re-engineered</span>
+    <span class="ticker-item"><span>✦</span> 20g protein per serving</span>
+    <span class="ticker-item"><span>✦</span> Real ingredients. Real indulgence.</span>
+    <span class="ticker-item"><span>✦</span> Mac & cheese sauce — sauce only</span>
+    <span class="ticker-item"><span>✦</span> Use your noodles. We'll bring the sauce.</span>
+    <span class="ticker-item"><span>✦</span> The $5.4B category, re-engineered</span>
+    <span class="ticker-item"><span>✦</span> Comfort food re-engineered</span>
+    <span class="ticker-item"><span>✦</span> 20g protein per serving</span>
+    <span class="ticker-item"><span>✦</span> Real ingredients. Real indulgence.</span>
+    <span class="ticker-item"><span>✦</span> Mac & cheese sauce — sauce only</span>
+    <span class="ticker-item"><span>✦</span> Use your noodles. We'll bring the sauce.</span>
+    <span class="ticker-item"><span>✦</span> The $5.4B category, re-engineered</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div>
+    <div class="section-eyebrow reveal">About</div>
+    <h2 class="about-headline reveal">We have a<br>thesis.<br>And a method.</h2>
+    <p class="about-body reveal">
+      NXTBITE LABS is a food innovation studio. We don't chase trends — we identify structural gaps in comfort food categories and build brands to fill them.
+    </p>
+    <p class="about-body reveal">
+      Our process: find a beloved food with a nutrition problem, engineer a better version that doesn't compromise on taste, and build a brand that earns its premium.
+    </p>
+    <p class="about-body reveal">
+      First out of the lab: <strong style="color:var(--white)">MELTED</strong> — re-engineered mac & cheese sauce for protein seekers.
+    </p>
+  </div>
+  <div class="about-right reveal">
+    <div class="pillar">
+      <div class="pillar-num">01</div>
+      <div>
+        <div class="pillar-title">Engineer First</div>
+        <div class="pillar-body">Every product starts with a problem worth solving — a comfort food category with a nutrition gap. We work backward from there, not forward from a trend.</div>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">02</div>
+      <div>
+        <div class="pillar-title">Comfort Is The Category</div>
+        <div class="pillar-body">We're not a health food company. We're a comfort food company that happens to engineer better nutrition. The emotional experience comes first.</div>
+      </div>
+    </div>
+    <div class="pillar">
+      <div class="pillar-num">03</div>
+      <div>
+        <div class="pillar-title">Brands, Not Products</div>
+        <div class="pillar-body">Each launch is a standalone brand with its own identity and consumer relationship. NXTBITE LABS stays behind the scenes — credibility without noise.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MELTED BRAND -->
+<section id="melted">
+  <div class="melted-hero">
+    <div>
+      <div class="melted-parent-tag">A NXTBITE LABS BRAND</div>
+      <div class="melted-wordmark">MELT<span>ED</span></div>
+      <div class="melted-tagline">Comfort food re-engineered.</div>
+    </div>
+    <div class="melted-right">
+      <p class="melted-desc">
+        Mac & cheese sauce packets — sauce only. Use whatever noodles you want: chickpea, protein, gluten-free, classic. We bring the cheese. And the protein.
+      </p>
+      <p class="melted-desc">
+        Higher protein. Lower sodium. Real ingredients. The indulgence you grew up with, engineered for how you eat today.
+      </p>
+      <div class="melted-facts">
+        <div class="melted-fact">
+          <div class="melted-fact-num">20G</div>
+          <div class="melted-fact-label">Protein per serving</div>
+        </div>
+        <div class="melted-fact">
+          <div class="melted-fact-num">40%</div>
+          <div class="melted-fact-label">Less sodium than Kraft</div>
+        </div>
+        <div class="melted-fact">
+          <div class="melted-fact-num">3</div>
+          <div class="melted-fact-label">Flavors at launch</div>
+        </div>
+        <div class="melted-fact">
+          <div class="melted-fact-num">∞</div>
+          <div class="melted-fact-label">Noodle pairings</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHOP -->
+  <div id="shop">
+    <div class="shop-header">
+      <div class="shop-title">SHOP MELTED</div>
+      <div class="shop-sub">Sauce packets — 3 flavors</div>
+    </div>
+
+    <div class="product-grid">
+
+      <!-- Product 1 -->
+      <div class="product-card">
+        <div class="product-img product-img-classic">
+          <div class="product-new-badge">Best Seller</div>
+          <div class="product-packet packet-classic">
+            <div class="packet-logo">MELT<span>ED</span></div>
+            <div class="packet-flavor">Classic Cheddar</div>
+            <div class="packet-protein">20G PROTEIN</div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Classic Cheddar</div>
+          <div class="product-desc">The original. Sharp cheddar sauce with real dairy protein. Pairs with everything.</div>
+          <div class="product-meta">
+            <span class="product-tag">20g Protein</span>
+            <span class="product-tag">Gluten Free</span>
+            <span class="product-tag">Real Cheese</span>
+          </div>
+          <div class="product-bottom">
+            <div class="product-price">
+              <span>per packet</span>
+              $3.99
+            </div>
+            <button class="add-to-cart" onclick="addToCart('Classic Cheddar', 3.99)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-card">
+        <div class="product-img product-img-white">
+          <div class="product-packet packet-white">
+            <div class="packet-logo">MELT<span>ED</span></div>
+            <div class="packet-flavor">White Cheddar</div>
+            <div class="packet-protein">20G PROTEIN</div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">White Cheddar</div>
+          <div class="product-desc">Milder. Creamier. Same protein punch. The elevated option for the adult palate.</div>
+          <div class="product-meta">
+            <span class="product-tag">20g Protein</span>
+            <span class="product-tag">Gluten Free</span>
+            <span class="product-tag">Clean Label</span>
+          </div>
+          <div class="product-bottom">
+            <div class="product-price">
+              <span>per packet</span>
+              $3.99
+            </div>
+            <button class="add-to-cart" onclick="addToCart('White Cheddar', 3.99)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card">
+        <div class="product-img product-img-spicy">
+          <div class="product-new-badge" style="background:#C0392B;">New</div>
+          <div class="product-packet packet-spicy">
+            <div class="packet-logo">MELT<span>ED</span></div>
+            <div class="packet-flavor">Spicy Buffalo</div>
+            <div class="packet-protein">20G PROTEIN</div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">Spicy Buffalo</div>
+          <div class="product-desc">Cheddar meets heat. For when comfort food needs a little edge. Fan-requested.</div>
+          <div class="product-meta">
+            <span class="product-tag">20g Protein</span>
+            <span class="product-tag">Gluten Free</span>
+            <span class="product-tag">🌶 Spicy</span>
+          </div>
+          <div class="product-bottom">
+            <div class="product-price">
+              <span>per packet</span>
+              $3.99
+            </div>
+            <button class="add-to-cart" onclick="addToCart('Spicy Buffalo', 3.99)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Cart notification -->
+    <div id="cart-toast" style="
+      position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: var(--melted-dark); color: var(--melted-cream);
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.12em;
+      padding: 14px 28px; z-index: 200; transition: transform 0.3s ease; opacity: 0;
+      pointer-events: none;
+    "></div>
+  </div>
+
+  <!-- NOTIFY -->
+  <div class="notify-banner">
+    <div class="notify-text">
+      <strong>Launching soon.</strong> We're finalizing production and will notify you the moment Melted is available to ship. Be first.
+    </div>
+    <div class="notify-form">
+      <input type="email" class="notify-input" placeholder="your@email.com" id="notifyEmail">
+      <button class="notify-btn" onclick="handleNotify()">Notify Me</button>
+    </div>
+  </div>
+</section>
+
+<!-- INVESTORS -->
+<section id="investors">
+  <div>
+    <div class="section-eyebrow reveal">Investors</div>
+    <h2 class="investor-headline reveal">Built for<br>the long game.</h2>
+    <p class="investor-body reveal">
+      NXTBITE LABS is a food innovation studio with a systematic approach to building brands in the better-for-you comfort food category. Our first brand, MELTED, targets the $5.4B U.S. mac & cheese market with a differentiated format and a clear protein-seeker audience.
+    </p>
+    <p class="investor-body reveal">
+      We're in early-stage validation and are selectively speaking with investors aligned on the long-term opportunity in functional comfort foods.
+    </p>
+    <a href="mailto:invest@nxtbitelabs.com" class="btn-primary reveal" style="display:inline-block; margin-top:8px;">Get In Touch</a>
+  </div>
+  <div class="investor-right reveal">
+    <div class="inv-row">
+      <div class="inv-label">U.S. Mac & Cheese Market (TAM)</div>
+      <div class="inv-value">$5.4B</div>
+    </div>
+    <div class="inv-row">
+      <div class="inv-label">Better-For-You Segment (SAM)</div>
+      <div class="inv-value">~$1B</div>
+    </div>
+    <div class="inv-row">
+      <div class="inv-label">Americans Seeking More Protein</div>
+      <div class="inv-value">71%</div>
+    </div>
+    <div class="inv-row">
+      <div class="inv-label">Goodles Category Share (Yr 1→2)</div>
+      <div class="inv-value">0.6→4%</div>
+    </div>
+    <div class="inv-row">
+      <div class="inv-label">Stage</div>
+      <div class="inv-value" style="font-size:16px; letter-spacing:0.05em;">Pre-Seed</div>
+    </div>
+    <div class="inv-email">
+      Investor inquiries → <a href="mailto:invest@nxtbitelabs.com">invest@nxtbitelabs.com</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-logo">NXTBITE <span>LABS</span></div>
+    <div class="footer-tagline">A food innovation studio.<br>Comfort food, re-engineered.</div>
+  </div>
+  <div>
+    <div class="footer-col-title">Navigate</div>
+    <ul class="footer-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#melted">Melted</a></li>
+      <li><a href="#shop">Shop</a></li>
+      <li><a href="#investors">Investors</a></li>
+    </ul>
+  </div>
+  <div>
+    <div class="footer-col-title">Contact</div>
+    <ul class="footer-links">
+      <li><a href="mailto:hello@nxtbitelabs.com">hello@nxtbitelabs.com</a></li>
+      <li><a href="mailto:invest@nxtbitelabs.com">invest@nxtbitelabs.com</a></li>
+      <li><a href="mailto:press@nxtbitelabs.com">press@nxtbitelabs.com</a></li>
+    </ul>
+  </div>
+</footer>
+<div class="footer-bottom">
+  <div class="footer-copy">© 2026 NXTBITE LABS. All rights reserved.</div>
+  <div class="footer-sub-brand">MELTED is a <span>NXTBITE LABS</span> brand.</div>
+</div>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animateCursor() {
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Cart toast
+  function addToCart(name, price) {
+    const toast = document.getElementById('cart-toast');
+    toast.textContent = `✦ ${name} added — $${price}`;
+    toast.style.transform = 'translateX(-50%) translateY(0)';
+    toast.style.opacity = '1';
+    setTimeout(() => {
+      toast.style.transform = 'translateX(-50%) translateY(80px)';
+      toast.style.opacity = '0';
+    }, 2500);
+  }
+
+  // Notify
+  function handleNotify() {
+    const email = document.getElementById('notifyEmail').value;
+    if (!email || !email.includes('@')) return;
+    const btn = document.querySelector('.notify-btn');
+    btn.textContent = "You're on the list ✦";
+    btn.style.background = '#2C1810';
+    btn.style.color = 'var(--melted-cream)';
+    document.getElementById('notifyEmail').value = '';
+  }
+</script>
+
+</body>
+</html>
