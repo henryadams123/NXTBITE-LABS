@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — NXTBITE LABS</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0A0A0A;--white:#F5F2ED;--accent:#F5C842;--orange:#F4A435;--cream:#FDF6E8;--dark:#1C0F00;--mid:#141414;--border:#1E1E1E;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:'IBM Plex Mono',monospace;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(245,200,66,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(245,200,66,0.03) 1px,transparent 1px);background-size:56px 56px;pointer-events:none;z-index:0;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,10,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(245,200,66,0.1);}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:0.12em;color:var(--white);text-decoration:none;}
+.nav-logo span{color:var(--orange);}
+.nav-logo em{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.15em;font-style:normal;color:rgba(245,242,237,0.3);}
+.nav-links{display:flex;align-items:center;gap:32px;}
+.nav-links a{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(245,242,237,0.5);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--white);}
+.nav-cta{background:var(--orange)!important;color:var(--black)!important;padding:10px 20px;font-weight:600;font-size:10px!important;}
+.nav-burger{display:none;background:none;border:none;color:var(--white);font-size:20px;cursor:pointer;}
+
+.page-hero{padding:140px 48px 80px;position:relative;z-index:1;border-bottom:1px solid rgba(245,200,66,0.08);}
+.page-tag{font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:10px;animation:fadeUp 0.6s ease 0.1s both;}
+.page-tag::before{content:'';width:24px;height:1px;background:var(--accent);}
+.page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(72px,12vw,160px);letter-spacing:0.04em;line-height:0.88;color:var(--white);animation:fadeUp 0.6s ease 0.25s both;}
+.page-title span{color:var(--accent);}
+.page-sub{font-family:'IBM Plex Sans',sans-serif;font-size:18px;color:rgba(245,242,237,0.5);margin-top:24px;max-width:520px;line-height:1.8;font-style:italic;animation:fadeUp 0.6s ease 0.4s both;}
+
+.contact-body{display:grid;grid-template-columns:1fr 1fr;gap:80px;padding:100px 48px;position:relative;z-index:1;align-items:start;}
+
+.contact-left{}
+.section-eyebrow{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.section-eyebrow::before{content:'';width:20px;height:1px;background:var(--accent);}
+.section-headline{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,5vw,60px);letter-spacing:0.05em;line-height:1;color:var(--white);margin-bottom:24px;}
+.section-body{font-family:'IBM Plex Sans',sans-serif;font-size:15px;line-height:1.9;color:rgba(245,242,237,0.55);}
+
+.inquiry-types{margin-top:40px;display:flex;flex-direction:column;gap:2px;}
+.inquiry-type{background:rgba(245,242,237,0.03);border:1px solid rgba(245,200,66,0.08);padding:20px 24px;display:flex;gap:16px;align-items:flex-start;}
+.inquiry-icon{font-size:18px;flex-shrink:0;margin-top:2px;}
+.inquiry-label{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:0.06em;color:var(--white);margin-bottom:4px;}
+.inquiry-desc{font-family:'IBM Plex Sans',sans-serif;font-size:12px;line-height:1.6;color:rgba(245,242,237,0.4);}
+
+.contact-right{}
+.contact-form{display:flex;flex-direction:column;gap:0;}
+.form-group{display:flex;flex-direction:column;}
+.form-group label{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(245,242,237,0.4);padding:16px 20px 8px;background:rgba(245,242,237,0.03);border:1px solid rgba(245,200,66,0.1);border-bottom:none;margin-top:2px;}
+.form-group:first-child label{margin-top:0;}
+.form-group input,.form-group select,.form-group textarea{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:0.04em;background:rgba(245,242,237,0.05);border:1px solid rgba(245,200,66,0.1);border-top:none;color:var(--white);padding:14px 20px;outline:none;transition:border-color 0.2s,background 0.2s;width:100%;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent);background:rgba(245,242,237,0.08);}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(245,242,237,0.2);}
+.form-group select{appearance:none;cursor:pointer;color:rgba(245,242,237,0.7);}
+.form-group select option{background:var(--black);}
+.form-group textarea{min-height:140px;resize:vertical;line-height:1.6;}
+.form-submit{margin-top:2px;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;font-weight:600;background:var(--orange);color:var(--dark);border:none;padding:20px 32px;cursor:pointer;transition:opacity 0.2s;width:100%;}
+.form-submit:hover{opacity:0.88;}
+.form-note{font-family:'IBM Plex Sans',sans-serif;font-size:11px;color:rgba(245,242,237,0.25);margin-top:14px;line-height:1.6;}
+
+.direct-contact{padding:0 48px 100px;position:relative;z-index:1;}
+.direct-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:24px;}
+.direct-item{background:rgba(245,242,237,0.03);border:1px solid rgba(245,200,66,0.08);padding:32px 28px;}
+.direct-type{font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:rgba(245,242,237,0.35);margin-bottom:8px;}
+.direct-value{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:0.06em;color:var(--white);margin-bottom:4px;}
+.direct-link{font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:var(--accent);text-decoration:none;}
+.direct-link:hover{text-decoration:underline;}
+
+footer{background:var(--black);border-top:1px solid rgba(245,200,66,0.08);padding:48px;position:relative;z-index:1;}
+.footer-inner{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;align-items:start;}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:0.1em;color:var(--white);}
+.footer-logo span{color:var(--orange);}
+.footer-parent{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(245,242,237,0.25);margin-top:4px;}
+.footer-links{display:flex;flex-direction:column;gap:10px;}
+.footer-links a{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(245,242,237,0.4);text-decoration:none;transition:color 0.2s;}
+.footer-links a:hover{color:var(--white);}
+.footer-right{text-align:right;}
+.footer-ig{font-size:12px;letter-spacing:0.1em;color:var(--orange);text-decoration:none;}
+.footer-copy{font-size:10px;letter-spacing:0.08em;color:rgba(245,242,237,0.2);margin-top:8px;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:768px){
+  nav{padding:0 24px;}
+  .nav-links{display:none;position:fixed;top:64px;left:0;right:0;background:var(--black);flex-direction:column;padding:32px 24px;gap:24px;border-bottom:1px solid rgba(245,200,66,0.1);}
+  .nav-links.open{display:flex;}
+  .nav-burger{display:block;}
+  .page-hero{padding:120px 24px 60px;}
+  .contact-body{grid-template-columns:1fr;gap:48px;padding:60px 24px;}
+  .direct-contact{padding:0 24px 60px;}
+  .direct-grid{grid-template-columns:1fr;}
+  footer{padding:40px 24px;}
+  .footer-inner{grid-template-columns:1fr;gap:28px;}
+  .footer-right{text-align:left;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">MELT<span>ED</span> <em>by NXTBITE LABS</em></a>
+  <div class="nav-links">
+    <a href="about.html">About</a>
+    <a href="melted.html">Melted</a>
+    <a href="investor.html">Investors</a>
+    <a href="contact.html" class="active">Contact</a>
+    <a href="waitlist.html" class="nav-cta">Get Early Access ✦</a>
+  </div>
+  <button class="nav-burger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<div class="page-hero">
+  <div class="page-tag">Get In Touch</div>
+  <h1 class="page-title">LET'S<br><span>TALK.</span></h1>
+  <p class="page-sub">Questions, inquiries, partnerships — we want to hear from you.</p>
+</div>
+
+<div class="contact-body">
+  <div class="contact-left">
+    <div class="section-eyebrow">Who We Hear From</div>
+    <h2 class="section-headline">WHO'S THIS FOR?</h2>
+    <p class="section-body">Whether you're a consumer with a question, an investor looking for more info, a retailer interested in carrying MELTED, or press — send us a message and we'll get back to you.</p>
+    <div class="inquiry-types">
+      <div class="inquiry-type"><div class="inquiry-icon">🧀</div><div><div class="inquiry-label">General Questions</div><div class="inquiry-desc">Questions about the product, availability, nutrition, or anything else.</div></div></div>
+      <div class="inquiry-type"><div class="inquiry-icon">💼</div><div><div class="inquiry-label">Investor Inquiries</div><div class="inquiry-desc">Interested in NXTBITE LABS or MELTED from an investment perspective.</div></div></div>
+      <div class="inquiry-type"><div class="inquiry-icon">🏪</div><div><div class="inquiry-label">Retail & Wholesale</div><div class="inquiry-desc">Interested in carrying MELTED in your store or distribution network.</div></div></div>
+      <div class="inquiry-type"><div class="inquiry-icon">📰</div><div><div class="inquiry-label">Press & Media</div><div class="inquiry-desc">Covering better-for-you food, CPG startups, or food innovation.</div></div></div>
+    </div>
+  </div>
+
+  <div class="contact-right">
+    <div class="section-eyebrow">Send a Message</div>
+    <h2 class="section-headline">GET IN<br>TOUCH.</h2>
+    <div class="contact-form">
+      <div class="form-group">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" placeholder="First and last name" />
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="your@email.com" />
+      </div>
+      <div class="form-group">
+        <label for="type">Inquiry Type</label>
+        <select id="type" name="type">
+          <option value="" disabled selected>Select one...</option>
+          <option value="general">General Question</option>
+          <option value="investor">Investor Inquiry</option>
+          <option value="retail">Retail / Wholesale</option>
+          <option value="press">Press / Media</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Tell us what's on your mind..."></textarea>
+      </div>
+      <button type="button" class="form-submit" onclick="handleSubmit()">Send Message ✦</button>
+      <div class="form-note" id="form-note">We typically respond within 1–2 business days.</div>
+    </div>
+  </div>
+</div>
+
+<div class="direct-contact">
+  <div class="section-eyebrow">Direct Contact</div>
+  <div class="direct-grid">
+    <div class="direct-item">
+      <div class="direct-type">Email</div>
+      <div class="direct-value">General</div>
+      <a href="mailto:hello@nxtbitelabs.com" class="direct-link">hello@nxtbitelabs.com</a>
+    </div>
+    <div class="direct-item">
+      <div class="direct-type">Instagram</div>
+      <div class="direct-value">@eatmelted</div>
+      <a href="https://instagram.com/eatmelted" target="_blank" class="direct-link">DM us on Instagram →</a>
+    </div>
+    <div class="direct-item">
+      <div class="direct-type">Website</div>
+      <div class="direct-value">nxtbitelabs.com</div>
+      <a href="https://nxtbitelabs.com" class="direct-link">nxtbitelabs.com →</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div><div class="footer-logo">MELT<span>ED</span></div><div class="footer-parent">A NXTBITE LABS Brand</div></div>
+    <div class="footer-links">
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="melted.html">Melted</a>
+      <a href="waitlist.html">Waitlist</a><a href="investor.html">Investors</a><a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-right"><a href="https://instagram.com/eatmelted" target="_blank" class="footer-ig">@eatmelted</a><div class="footer-copy">© 2026 NXTBITE LABS. All rights reserved.</div></div>
+  </div>
+</footer>
+
+<script>
+function handleSubmit() {
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const type = document.getElementById('type').value;
+  const message = document.getElementById('message').value;
+  if (!name || !email || !type || !message) {
+    document.getElementById('form-note').textContent = 'Please fill in all fields before submitting.';
+    document.getElementById('form-note').style.color = '#F4A435';
+    return;
+  }
+  const mailto = `mailto:hello@nxtbitelabs.com?subject=NXTBITE LABS Inquiry — ${type}&body=Name: ${encodeURIComponent(name)}%0AEmail: ${encodeURIComponent(email)}%0AType: ${encodeURIComponent(type)}%0A%0AMessage:%0A${encodeURIComponent(message)}`;
+  window.location.href = mailto;
+  document.getElementById('form-note').textContent = "Opening your email client... We'll get back to you within 1–2 business days.";
+  document.getElementById('form-note').style.color = '#6BCB77';
+}
+</script>
+</body>
+</html>

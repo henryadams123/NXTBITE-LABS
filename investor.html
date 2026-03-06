@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Investors — NXTBITE LABS</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0A0A0A;--white:#F5F2ED;--accent:#F5C842;--orange:#F4A435;--cream:#FDF6E8;--dark:#1C0F00;--mid:#141414;--border:#1E1E1E;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--black);color:var(--white);font-family:'IBM Plex Mono',monospace;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(245,200,66,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(245,200,66,0.03) 1px,transparent 1px);background-size:56px 56px;pointer-events:none;z-index:0;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(10,10,10,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(245,200,66,0.1);}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:0.12em;color:var(--white);text-decoration:none;}
+.nav-logo span{color:var(--orange);}
+.nav-logo em{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.15em;font-style:normal;color:rgba(245,242,237,0.3);}
+.nav-links{display:flex;align-items:center;gap:32px;}
+.nav-links a{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(245,242,237,0.5);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--white);}
+.nav-cta{background:var(--orange)!important;color:var(--black)!important;padding:10px 20px;font-weight:600;font-size:10px!important;}
+.nav-burger{display:none;background:none;border:none;color:var(--white);font-size:20px;cursor:pointer;}
+
+.page-hero{padding:140px 48px 80px;position:relative;z-index:1;border-bottom:1px solid rgba(245,200,66,0.08);}
+.page-tag{font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;gap:10px;animation:fadeUp 0.6s ease 0.1s both;}
+.page-tag::before{content:'';width:24px;height:1px;background:var(--accent);}
+.page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(64px,11vw,140px);letter-spacing:0.04em;line-height:0.88;color:var(--white);animation:fadeUp 0.6s ease 0.25s both;}
+.page-title span{color:var(--accent);}
+.page-sub{font-family:'IBM Plex Sans',sans-serif;font-size:18px;color:rgba(245,242,237,0.5);margin-top:24px;max-width:520px;line-height:1.8;font-style:italic;animation:fadeUp 0.6s ease 0.4s both;}
+
+.section{padding:100px 48px;position:relative;z-index:1;}
+.section-eyebrow{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.section-eyebrow::before{content:'';width:20px;height:1px;background:var(--accent);}
+.section-headline{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,6vw,72px);letter-spacing:0.05em;line-height:1;color:var(--white);margin-bottom:24px;}
+.section-body{font-family:'IBM Plex Sans',sans-serif;font-size:16px;line-height:1.9;color:rgba(245,242,237,0.55);max-width:580px;}
+
+.market-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:48px;}
+.mstat{background:rgba(245,242,237,0.03);border:1px solid rgba(245,200,66,0.08);padding:36px 28px;}
+.mstat-num{font-family:'Bebas Neue',sans-serif;font-size:44px;letter-spacing:0.04em;color:var(--accent);line-height:1;margin-bottom:8px;}
+.mstat-label{font-family:'IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;color:rgba(245,242,237,0.5);}
+.mstat-source{font-size:9px;letter-spacing:0.1em;color:rgba(245,242,237,0.2);margin-top:8px;}
+
+.thesis-grid{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:48px;}
+.thesis-item{background:rgba(245,242,237,0.03);border:1px solid rgba(245,200,66,0.08);padding:40px 36px;}
+.thesis-num{font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--accent);opacity:0.2;line-height:1;margin-bottom:12px;}
+.thesis-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:0.06em;color:var(--white);margin-bottom:10px;}
+.thesis-body{font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.8;color:rgba(245,242,237,0.5);}
+
+.differentiators{margin-top:48px;display:flex;flex-direction:column;gap:2px;}
+.diff-row{background:rgba(245,242,237,0.03);border:1px solid rgba(245,200,66,0.08);padding:28px 36px;display:grid;grid-template-columns:200px 1fr;gap:32px;align-items:start;transition:background 0.2s;}
+.diff-row:hover{background:rgba(245,200,66,0.06);}
+.diff-label{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:0.08em;color:var(--accent);}
+.diff-desc{font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.7;color:rgba(245,242,237,0.55);}
+
+.traction{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:48px;}
+.traction-item{background:rgba(245,242,237,0.03);border:1px solid rgba(245,200,66,0.08);padding:36px 28px;text-align:center;}
+.traction-num{font-family:'Bebas Neue',sans-serif;font-size:52px;letter-spacing:0.04em;color:var(--accent);line-height:1;}
+.traction-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(245,242,237,0.35);margin-top:8px;}
+
+.cta-band{background:var(--accent);padding:80px 48px;text-align:center;position:relative;z-index:1;}
+.cta-band-headline{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,8vw,88px);letter-spacing:0.05em;line-height:1;color:var(--black);margin-bottom:16px;}
+.cta-band-sub{font-family:'IBM Plex Sans',sans-serif;font-size:16px;color:rgba(0,0,0,0.55);margin-bottom:40px;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.7;}
+.btn-black{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;font-weight:600;background:var(--black);color:var(--white);padding:18px 36px;text-decoration:none;display:inline-flex;align-items:center;gap:10px;}
+.btn-black:hover{opacity:0.85;}
+
+footer{background:var(--black);border-top:1px solid rgba(245,200,66,0.08);padding:48px;position:relative;z-index:1;}
+.footer-inner{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;align-items:start;}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:0.1em;color:var(--white);}
+.footer-logo span{color:var(--orange);}
+.footer-parent{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(245,242,237,0.25);margin-top:4px;}
+.footer-links{display:flex;flex-direction:column;gap:10px;}
+.footer-links a{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(245,242,237,0.4);text-decoration:none;transition:color 0.2s;}
+.footer-links a:hover{color:var(--white);}
+.footer-right{text-align:right;}
+.footer-ig{font-size:12px;letter-spacing:0.1em;color:var(--orange);text-decoration:none;}
+.footer-copy{font-size:10px;letter-spacing:0.08em;color:rgba(245,242,237,0.2);margin-top:8px;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:768px){
+  nav{padding:0 24px;}
+  .nav-links{display:none;position:fixed;top:64px;left:0;right:0;background:var(--black);flex-direction:column;padding:32px 24px;gap:24px;border-bottom:1px solid rgba(245,200,66,0.1);}
+  .nav-links.open{display:flex;}
+  .nav-burger{display:block;}
+  .page-hero,.section{padding-left:24px;padding-right:24px;}
+  .market-stats,.traction{grid-template-columns:1fr 1fr;}
+  .thesis-grid{grid-template-columns:1fr;}
+  .diff-row{grid-template-columns:1fr;}
+  .footer-inner{grid-template-columns:1fr;gap:28px;}
+  .footer-right{text-align:left;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">MELT<span>ED</span> <em>by NXTBITE LABS</em></a>
+  <div class="nav-links">
+    <a href="about.html">About</a>
+    <a href="melted.html">Melted</a>
+    <a href="investor.html" class="active">Investors</a>
+    <a href="contact.html">Contact</a>
+    <a href="waitlist.html" class="nav-cta">Get Early Access ✦</a>
+  </div>
+  <button class="nav-burger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<div class="page-hero">
+  <div class="page-tag">For Investors</div>
+  <h1 class="page-title">THE<br><span>OPPORTUNITY.</span></h1>
+  <p class="page-sub">A food innovation studio built to re-engineer the most-loved comfort food categories — starting with mac & cheese.</p>
+</div>
+
+<div class="section">
+  <div class="section-eyebrow">The Market</div>
+  <h2 class="section-headline">$5.4B AND<br>UNDER-SERVED.</h2>
+  <div class="section-body">The U.S. mac & cheese category is massive, beloved, and largely unchanged for decades. The better-for-you segment is growing fast — and no one has built a breakout brand in the protein-forward sauce format. That's the gap MELTED is built to own.</div>
+  <div class="market-stats">
+    <div class="mstat"><div class="mstat-num">$5.4B</div><div class="mstat-label">U.S. mac & cheese market size</div><div class="mstat-source">Market research, 2024</div></div>
+    <div class="mstat"><div class="mstat-num">~$1B</div><div class="mstat-label">Better-for-you segment</div><div class="mstat-source">Estimated, 2024</div></div>
+    <div class="mstat"><div class="mstat-num">4%</div><div class="mstat-label">Goodles market share after year one</div><div class="mstat-source">Comparable brand data</div></div>
+    <div class="mstat"><div class="mstat-num">↑</div><div class="mstat-label">Protein-forward CPG is the fastest-growing better-for-you segment</div><div class="mstat-source">Category trend data</div></div>
+  </div>
+</div>
+
+<div class="section" style="background:rgba(245,242,237,0.02);border-top:1px solid rgba(245,200,66,0.08);border-bottom:1px solid rgba(245,200,66,0.08);padding-top:100px;">
+  <div class="section-eyebrow">Investment Thesis</div>
+  <h2 class="section-headline">WHY NOW.<br>WHY THIS.</h2>
+  <div class="thesis-grid">
+    <div class="thesis-item"><div class="thesis-num">01</div><div class="thesis-title">Category Timing</div><div class="thesis-body">The better-for-you mac segment is at the same inflection point protein snacks were in 2018. Early brand leadership in emerging better-for-you categories compounds significantly. Goodles proved it's possible — MELTED's sauce-only format is a more scalable, differentiated entry point.</div></div>
+    <div class="thesis-item"><div class="thesis-num">02</div><div class="thesis-title">Format Innovation</div><div class="thesis-body">Every competitor sells full kits. MELTED sells sauce only — pairing with the protein pasta and gluten-free noodles consumers already buy. This isn't a new product category. It's a new entry point into an existing one, with a built-in audience that's already looking for it.</div></div>
+    <div class="thesis-item"><div class="thesis-num">03</div><div class="thesis-title">Studio Model</div><div class="thesis-body">NXTBITE LABS is not a single-product bet. The studio model — identify, engineer, brand, scale — is designed to repeat across comfort food categories. MELTED is brand one. The methodology is the asset.</div></div>
+    <div class="thesis-item"><div class="thesis-num">04</div><div class="thesis-title">Brand Foundation</div><div class="thesis-body">Most CPG startups underinvest in brand early and pay for it later. NXTBITE LABS is built brand-first — visual identity, voice, and digital presence are in place before launch. This compresses the timeline to earned media and retail readiness.</div></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-eyebrow">Differentiation</div>
+  <h2 class="section-headline">WHAT SETS US<br>APART.</h2>
+  <div class="differentiators">
+    <div class="diff-row"><div class="diff-label">Sauce Only</div><div class="diff-desc">No competitor sells protein mac sauce independently. This format unlocks an audience that already buys premium pasta — we're not asking them to change their behavior, just upgrade their sauce.</div></div>
+    <div class="diff-row"><div class="diff-label">20G Protein</div><div class="diff-desc">Nearly 3x the protein of the leading boxed mac & cheese. Delivered through real dairy — not protein powder blends that affect taste. Nutrition without compromise.</div></div>
+    <div class="diff-row"><div class="diff-label">Clean Label</div><div class="diff-desc">No artificial dyes, no mystery ingredients. 40% less sodium than Kraft. Real cheese. A label that earns trust at the shelf and online.</div></div>
+    <div class="diff-row"><div class="diff-label">Studio Model</div><div class="diff-desc">MELTED is the first brand out of a repeatable system. Investors get exposure to a portfolio model — not a single product bet.</div></div>
+  </div>
+</div>
+
+<div class="section" style="padding-top:0;">
+  <div class="section-eyebrow">Traction</div>
+  <h2 class="section-headline">WHERE WE ARE.</h2>
+  <div class="traction">
+    <div class="traction-item"><div class="traction-num">3</div><div class="traction-label">Flavors developed</div></div>
+    <div class="traction-item"><div class="traction-num">Live</div><div class="traction-label">Brand & web presence</div></div>
+    <div class="traction-item"><div class="traction-num">Pre-launch</div><div class="traction-label">Building waitlist now</div></div>
+  </div>
+</div>
+
+<div class="cta-band">
+  <div class="cta-band-headline">LET'S TALK.</div>
+  <p class="cta-band-sub">If you're interested in learning more about NXTBITE LABS or MELTED, we'd love to connect.</p>
+  <a href="contact.html" class="btn-black">Get In Touch ✦</a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div><div class="footer-logo">MELT<span>ED</span></div><div class="footer-parent">A NXTBITE LABS Brand</div></div>
+    <div class="footer-links">
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="melted.html">Melted</a>
+      <a href="waitlist.html">Waitlist</a><a href="investor.html">Investors</a><a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-right"><a href="https://instagram.com/eatmelted" target="_blank" class="footer-ig">@eatmelted</a><div class="footer-copy">© 2026 NXTBITE LABS. All rights reserved.</div></div>
+  </div>
+</footer>
+</body>
+</html>

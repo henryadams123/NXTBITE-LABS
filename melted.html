@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Melted — High-Protein Mac & Cheese Sauce</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root{--black:#0A0A0A;--white:#F5F2ED;--accent:#F5C842;--orange:#F4A435;--cream:#FDF6E8;--dark:#1C0F00;--mid:#141414;--border:#1E1E1E;}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--dark);color:var(--cream);font-family:'IBM Plex Mono',monospace;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(244,164,53,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(244,164,53,0.04) 1px,transparent 1px);background-size:56px 56px;pointer-events:none;z-index:0;}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 48px;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(28,15,0,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(244,164,53,0.12);}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:0.12em;color:var(--cream);text-decoration:none;}
+.nav-logo span{color:var(--orange);}
+.nav-logo em{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:0.15em;font-style:normal;color:rgba(253,246,232,0.3);}
+.nav-links{display:flex;align-items:center;gap:32px;}
+.nav-links a{font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(253,246,232,0.5);text-decoration:none;transition:color 0.2s;}
+.nav-links a:hover,.nav-links a.active{color:var(--cream);}
+.nav-cta{background:var(--orange)!important;color:var(--dark)!important;padding:10px 20px;font-weight:600;font-size:10px!important;}
+.nav-burger{display:none;background:none;border:none;color:var(--cream);font-size:20px;cursor:pointer;}
+
+.page-hero{padding:140px 48px 80px;position:relative;z-index:1;border-bottom:1px solid rgba(244,164,53,0.1);}
+.page-tag{font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:var(--orange);margin-bottom:20px;display:flex;align-items:center;gap:10px;animation:fadeUp 0.6s ease 0.1s both;}
+.page-tag::before{content:'';width:24px;height:1px;background:var(--orange);}
+.page-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(72px,14vw,180px);letter-spacing:0.04em;line-height:0.88;color:var(--cream);animation:fadeUp 0.6s ease 0.25s both;}
+.page-title span{color:var(--orange);}
+.page-sub{font-family:'IBM Plex Sans',sans-serif;font-size:18px;color:rgba(253,246,232,0.5);margin-top:24px;max-width:520px;line-height:1.8;font-style:italic;animation:fadeUp 0.6s ease 0.4s both;}
+.hero-stats{display:flex;gap:0;margin-top:60px;animation:fadeUp 0.6s ease 0.55s both;border-top:1px solid rgba(244,164,53,0.12);}
+.h-stat{padding:28px 48px 0 0;border-right:1px solid rgba(244,164,53,0.12);margin-right:48px;}
+.h-stat:last-child{border-right:none;}
+.h-stat-num{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:0.05em;color:var(--orange);line-height:1;}
+.h-stat-label{font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(253,246,232,0.35);margin-top:4px;}
+
+.section{padding:100px 48px;position:relative;z-index:1;}
+.section-eyebrow{font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--orange);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.section-eyebrow::before{content:'';width:20px;height:1px;background:var(--orange);}
+.section-headline{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,6vw,72px);letter-spacing:0.05em;line-height:1;color:var(--cream);margin-bottom:24px;}
+
+/* FLAVOR CARDS */
+.flavor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:48px;}
+.flavor-card{background:rgba(253,246,232,0.04);border:1px solid rgba(244,164,53,0.1);padding:48px 36px;display:flex;flex-direction:column;justify-content:space-between;min-height:420px;transition:background 0.25s,transform 0.25s;}
+.flavor-card:hover{background:rgba(244,164,53,0.08);transform:translateY(-4px);}
+.flavor-num{font-family:'Bebas Neue',sans-serif;font-size:64px;letter-spacing:0.04em;color:var(--orange);opacity:0.2;line-height:1;margin-bottom:16px;}
+.flavor-name{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:0.08em;color:var(--cream);line-height:1;margin-bottom:12px;}
+.flavor-desc{font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.8;color:rgba(253,246,232,0.5);flex:1;}
+.flavor-meta{margin-top:28px;padding-top:20px;border-top:1px solid rgba(244,164,53,0.12);}
+.flavor-prot{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:0.05em;color:var(--orange);line-height:1;}
+.flavor-prot-label{font-size:9px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(253,246,232,0.3);margin-top:2px;}
+.flavor-tag{display:inline-block;margin-top:12px;font-size:9px;letter-spacing:0.15em;text-transform:uppercase;padding:4px 10px;border:1px solid rgba(244,164,53,0.3);color:rgba(253,246,232,0.4);}
+
+/* NUTRITION */
+.nutrition-panel{background:rgba(253,246,232,0.04);border:1px solid rgba(244,164,53,0.1);padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:48px;}
+.nutrition-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:0.08em;color:var(--cream);margin-bottom:24px;grid-column:1/-1;}
+.nutrition-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(244,164,53,0.08);}
+.nutrition-row:last-child{border-bottom:none;}
+.nutrition-label{font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:rgba(253,246,232,0.6);}
+.nutrition-val{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:0.06em;color:var(--cream);}
+.nutrition-val.highlight{color:var(--orange);}
+.nutrition-note{font-family:'IBM Plex Sans',sans-serif;font-size:12px;color:rgba(253,246,232,0.35);line-height:1.7;margin-top:8px;}
+
+/* COMPARISON */
+.compare-table{margin-top:48px;border:1px solid rgba(244,164,53,0.1);}
+.compare-header{display:grid;grid-template-columns:2fr 1fr 1fr;background:rgba(253,246,232,0.04);border-bottom:1px solid rgba(244,164,53,0.1);}
+.compare-cell{padding:16px 24px;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(253,246,232,0.4);}
+.compare-cell.brand{color:var(--orange);}
+.compare-row{display:grid;grid-template-columns:2fr 1fr 1fr;border-bottom:1px solid rgba(244,164,53,0.06);}
+.compare-row:last-child{border-bottom:none;}
+.compare-row:hover{background:rgba(244,164,53,0.04);}
+.compare-cell-body{padding:16px 24px;font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:rgba(253,246,232,0.65);}
+.compare-cell-body.good{color:#6BCB77;}
+.compare-cell-body.bad{color:#FF6B6B;}
+.compare-cell-body.label{color:var(--cream);font-weight:500;}
+
+/* HOW TO */
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:48px;}
+.how-step{background:rgba(253,246,232,0.03);border:1px solid rgba(244,164,53,0.08);padding:36px 28px;}
+.how-step-num{font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--orange);opacity:0.25;line-height:1;margin-bottom:12px;}
+.how-step-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:0.06em;color:var(--cream);margin-bottom:8px;}
+.how-step-desc{font-family:'IBM Plex Sans',sans-serif;font-size:13px;line-height:1.7;color:rgba(253,246,232,0.45);}
+
+.cta-band{background:var(--orange);padding:80px 48px;text-align:center;position:relative;z-index:1;}
+.cta-band-headline{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,8vw,88px);letter-spacing:0.05em;line-height:1;color:var(--dark);margin-bottom:16px;}
+.cta-band-sub{font-family:'IBM Plex Sans',sans-serif;font-size:16px;color:rgba(28,15,0,0.6);margin-bottom:40px;max-width:420px;margin-left:auto;margin-right:auto;line-height:1.7;}
+.btn-dark{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;font-weight:600;background:var(--dark);color:var(--cream);padding:18px 36px;text-decoration:none;display:inline-flex;align-items:center;gap:10px;}
+.btn-dark:hover{opacity:0.85;}
+
+footer{background:var(--dark);border-top:1px solid rgba(244,164,53,0.1);padding:48px;position:relative;z-index:1;}
+.footer-inner{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;align-items:start;}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:0.1em;color:var(--cream);}
+.footer-logo span{color:var(--orange);}
+.footer-parent{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(253,246,232,0.25);margin-top:4px;}
+.footer-links{display:flex;flex-direction:column;gap:10px;}
+.footer-links a{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(253,246,232,0.4);text-decoration:none;transition:color 0.2s;}
+.footer-links a:hover{color:var(--cream);}
+.footer-right{text-align:right;}
+.footer-ig{font-size:12px;letter-spacing:0.1em;color:var(--orange);text-decoration:none;}
+.footer-copy{font-size:10px;letter-spacing:0.08em;color:rgba(253,246,232,0.2);margin-top:8px;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@media(max-width:768px){
+  nav{padding:0 24px;}
+  .nav-links{display:none;position:fixed;top:64px;left:0;right:0;background:var(--dark);flex-direction:column;padding:32px 24px;gap:24px;border-bottom:1px solid rgba(244,164,53,0.12);}
+  .nav-links.open{display:flex;}
+  .nav-burger{display:block;}
+  .page-hero,.section{padding-left:24px;padding-right:24px;}
+  .flavor-grid,.how-steps{grid-template-columns:1fr;}
+  .hero-stats{flex-wrap:wrap;gap:20px;}
+  .h-stat{border-right:none;padding-right:0;margin-right:0;}
+  .nutrition-panel{grid-template-columns:1fr;}
+  .compare-header,.compare-row{grid-template-columns:1.5fr 1fr 1fr;}
+  .footer-inner{grid-template-columns:1fr;gap:28px;}
+  .footer-right{text-align:left;}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">MELT<span>ED</span> <em>by NXTBITE LABS</em></a>
+  <div class="nav-links">
+    <a href="about.html">About</a>
+    <a href="melted.html" class="active">Melted</a>
+    <a href="investor.html">Investors</a>
+    <a href="contact.html">Contact</a>
+    <a href="waitlist.html" class="nav-cta">Get Early Access ✦</a>
+  </div>
+  <button class="nav-burger" onclick="document.querySelector('.nav-links').classList.toggle('open')">☰</button>
+</nav>
+
+<div class="page-hero">
+  <div class="page-tag">The Product</div>
+  <h1 class="page-title">MELT<span>ED.</span></h1>
+  <p class="page-sub">High-protein mac & cheese sauce. Sauce only. Real ingredients. Zero compromise.</p>
+  <div class="hero-stats">
+    <div class="h-stat"><div class="h-stat-num">20G</div><div class="h-stat-label">Protein per serving</div></div>
+    <div class="h-stat"><div class="h-stat-num">40%</div><div class="h-stat-label">Less sodium vs Kraft</div></div>
+    <div class="h-stat"><div class="h-stat-num">3</div><div class="h-stat-label">Flavors at launch</div></div>
+    <div class="h-stat"><div class="h-stat-num">∞</div><div class="h-stat-label">Noodle pairings</div></div>
+  </div>
+</div>
+
+<!-- FLAVORS -->
+<div class="section">
+  <div class="section-eyebrow">At Launch</div>
+  <h2 class="section-headline">THREE FLAVORS.<br>ALL 20G PROTEIN.</h2>
+  <div class="flavor-grid">
+    <div class="flavor-card">
+      <div><div class="flavor-num">01</div><div class="flavor-name">CLASSIC CHEDDAR</div><div class="flavor-desc">The one you grew up on, upgraded. Real sharp cheddar, 20g of protein, clean ingredients. Comfort food as it should have always been.</div></div>
+      <div class="flavor-meta"><div class="flavor-prot">20G</div><div class="flavor-prot-label">Protein per serving</div><div class="flavor-tag">Real Cheddar</div></div>
+    </div>
+    <div class="flavor-card">
+      <div><div class="flavor-num">02</div><div class="flavor-name">WHITE CHEDDAR</div><div class="flavor-desc">Smoother, creamier, more refined. White cheddar brings a different depth — still 20g of protein, still sauce-only, still pairs with anything.</div></div>
+      <div class="flavor-meta"><div class="flavor-prot">20G</div><div class="flavor-prot-label">Protein per serving</div><div class="flavor-tag">White Cheddar</div></div>
+    </div>
+    <div class="flavor-card">
+      <div><div class="flavor-num">03</div><div class="flavor-name">SPICY BUFFALO</div><div class="flavor-desc">Comfort food with an edge. Cheddar heat and buffalo kick — for when you want your mac to have a little more personality. Still 20g.</div></div>
+      <div class="flavor-meta"><div class="flavor-prot">20G</div><div class="flavor-prot-label">Protein per serving</div><div class="flavor-tag">Buffalo + Cheddar</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- NUTRITION -->
+<div class="section" style="padding-top:0;">
+  <div class="section-eyebrow">What's Inside</div>
+  <h2 class="section-headline">NUTRITION FACTS.</h2>
+  <div class="nutrition-panel">
+    <div class="nutrition-title" style="grid-column:1/-1;">Per Serving — Classic Cheddar</div>
+    <div>
+      <div class="nutrition-row"><span class="nutrition-label">Protein</span><span class="nutrition-val highlight">20G</span></div>
+      <div class="nutrition-row"><span class="nutrition-label">Sodium</span><span class="nutrition-val">280mg</span></div>
+      <div class="nutrition-row"><span class="nutrition-label">Calories</span><span class="nutrition-val">160</span></div>
+      <div class="nutrition-row"><span class="nutrition-label">Total Fat</span><span class="nutrition-val">6G</span></div>
+      <div class="nutrition-row"><span class="nutrition-label">Total Carbs</span><span class="nutrition-val">8G</span></div>
+    </div>
+    <div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:0.06em;color:var(--cream);margin-bottom:16px;">vs. Regular Mac</div>
+      <div class="nutrition-row"><span class="nutrition-label">Regular mac protein</span><span class="nutrition-val" style="color:#FF6B6B;">7G</span></div>
+      <div class="nutrition-row"><span class="nutrition-label">Regular mac sodium</span><span class="nutrition-val" style="color:#FF6B6B;">470mg</span></div>
+      <div class="nutrition-note">MELTED delivers nearly 3x the protein and 40% less sodium than the leading boxed mac & cheese brand.</div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPARISON -->
+<div class="section" style="padding-top:0;">
+  <div class="section-eyebrow">How We Stack Up</div>
+  <h2 class="section-headline">MELTED VS.<br>THE REST.</h2>
+  <div class="compare-table">
+    <div class="compare-header">
+      <div class="compare-cell">Feature</div>
+      <div class="compare-cell">Regular Mac</div>
+      <div class="compare-cell brand">MELTED ✦</div>
+    </div>
+    <div class="compare-row"><div class="compare-cell-body label">Protein per serving</div><div class="compare-cell-body bad">7G</div><div class="compare-cell-body good">20G</div></div>
+    <div class="compare-row"><div class="compare-cell-body label">Sodium</div><div class="compare-cell-body bad">470mg</div><div class="compare-cell-body good">280mg</div></div>
+    <div class="compare-row"><div class="compare-cell-body label">Noodle choice</div><div class="compare-cell-body bad">Included only</div><div class="compare-cell-body good">Any noodle</div></div>
+    <div class="compare-row"><div class="compare-cell-body label">Cheese source</div><div class="compare-cell-body bad">Powder / artificial</div><div class="compare-cell-body good">Real dairy cheese</div></div>
+    <div class="compare-row"><div class="compare-cell-body label">Artificial dyes</div><div class="compare-cell-body bad">Yes</div><div class="compare-cell-body good">None</div></div>
+  </div>
+</div>
+
+<!-- HOW TO USE -->
+<div class="section" style="background:rgba(253,246,232,0.02);border-top:1px solid rgba(244,164,53,0.08);border-bottom:1px solid rgba(244,164,53,0.08);">
+  <div class="section-eyebrow">How It Works</div>
+  <h2 class="section-headline">SIMPLE BY DESIGN.</h2>
+  <div class="how-steps">
+    <div class="how-step"><div class="how-step-num">01</div><div class="how-step-title">Pick Your Pasta</div><div class="how-step-desc">Chickpea, protein pasta, gluten-free, classic elbow — whatever fits your macros and your taste.</div></div>
+    <div class="how-step"><div class="how-step-num">02</div><div class="how-step-title">Cook Your Noodles</div><div class="how-step-desc">Boil and drain as you normally would. Nothing special required.</div></div>
+    <div class="how-step"><div class="how-step-num">03</div><div class="how-step-title">Add MELTED Sauce</div><div class="how-step-desc">Squeeze in the sauce packet, stir, and you're done. 20g of protein. Real cheese. No powder.</div></div>
+  </div>
+</div>
+
+<div class="cta-band">
+  <div class="cta-band-headline">GET EARLY<br>ACCESS.</div>
+  <p class="cta-band-sub">Join the waitlist for first access and a launch discount when we ship.</p>
+  <a href="waitlist.html" class="btn-dark">Join the Waitlist ✦</a>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div><div class="footer-logo">MELT<span>ED</span></div><div class="footer-parent">A NXTBITE LABS Brand</div></div>
+    <div class="footer-links">
+      <a href="index.html">Home</a><a href="about.html">About</a><a href="melted.html">Melted</a>
+      <a href="waitlist.html">Waitlist</a><a href="investor.html">Investors</a><a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-right"><a href="https://instagram.com/eatmelted" target="_blank" class="footer-ig">@eatmelted</a><div class="footer-copy">© 2026 NXTBITE LABS. All rights reserved.</div></div>
+  </div>
+</footer>
+</body>
+</html>
